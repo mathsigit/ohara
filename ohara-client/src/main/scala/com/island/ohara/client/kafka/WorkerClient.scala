@@ -292,6 +292,7 @@ object WorkerClient {
         () => HttpExecutor.SINGLETON.put[Error](s"http://$workerAddress/connectors/$name/resume"),
         s"resume $name")
 
+      import scala.collection.JavaConverters._
       override def connectorValidator(): Validator =
         (executionContext, className, settings) => {
           implicit val exec: ExecutionContext = executionContext
@@ -410,7 +411,8 @@ object WorkerClient {
       * @return this one
       */
     def topicNames(topicNames: Seq[String]): Creator = {
-      CommonUtils.requireNonEmpty(topicNames.asJava)
+      import scala.collection.JavaConverters._
+      CommonUtils.requireNonEmpty(topicNames.asJavaCollection)
       topicNames.foreach(CommonUtils.requireNonEmpty)
       this.topicNames = topicNames
       this
@@ -441,6 +443,8 @@ object WorkerClient {
       this.converterTypeOfValue = Objects.requireNonNull(converterTypeOfValue)
       this
     }
+
+    import scala.collection.JavaConverters._
 
     /**
       * send the request to create the sink connector.
@@ -498,7 +502,7 @@ object WorkerClient {
 
     @Optional("Default is none")
     def settings(settings: Map[String, String]): Validator = {
-      this.formatter.settings(CommonUtils.requireNonEmpty(settings.asJava))
+      this.formatter.settings(CommonUtils.requireNonEmpty(Objects.requireNonNull(settings).asJava))
       this
     }
 

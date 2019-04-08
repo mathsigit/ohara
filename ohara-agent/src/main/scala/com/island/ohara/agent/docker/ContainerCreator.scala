@@ -17,7 +17,7 @@
 package com.island.ohara.agent.docker
 
 import java.util.Objects
-import scala.collection.JavaConverters._
+
 import com.island.ohara.common.annotations.Optional
 import com.island.ohara.common.util.CommonUtils
 
@@ -101,7 +101,7 @@ trait ContainerCreator {
     */
   @Optional("default is empty")
   def envs(envs: Map[String, String]): ContainerCreator = {
-    this.envs = CommonUtils.requireNonEmpty(envs.asJava).asScala.toMap
+    this.envs = assertNonEmpty(envs)
     this
   }
 
@@ -111,7 +111,7 @@ trait ContainerCreator {
     */
   @Optional("default is empty")
   def route(route: Map[String, String]): ContainerCreator = {
-    this.route = CommonUtils.requireNonEmpty(route.asJava).asScala.toMap
+    this.route = assertNonEmpty(route)
     this
   }
 
@@ -124,7 +124,7 @@ trait ContainerCreator {
     */
   @Optional("default is empty")
   def portMappings(ports: Map[Int, Int]): ContainerCreator = {
-    this.ports = CommonUtils.requireNonEmpty(ports.asJava).asScala.toMap
+    this.ports = assertNonEmpty(ports)
     this
   }
 
@@ -135,7 +135,7 @@ trait ContainerCreator {
     */
   @Optional("default is empty")
   def volumeMapping(volumeMapping: Map[String, String]): ContainerCreator = {
-    this.volumeMapping = CommonUtils.requireNonEmpty(volumeMapping.asJava).asScala.toMap
+    this.volumeMapping = assertNonEmpty(volumeMapping)
     this
   }
 
@@ -173,4 +173,8 @@ trait ContainerCreator {
     this.command = CommonUtils.requireNonEmpty(command)
     this
   }
+
+  private[this] def assertNonEmpty[K, V](map: Map[K, V]): Map[K, V] = if (Objects.requireNonNull(map).isEmpty)
+    throw new IllegalArgumentException("empty input!")
+  else map
 }

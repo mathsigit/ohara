@@ -376,22 +376,9 @@ public final class CommonUtils {
     return s == null || s.isEmpty();
   }
 
-  /**
-   * @param s a collection
-   * @return true if collection is null or empty. otherwise false
-   */
-  public static boolean isEmpty(Collection<?> s) {
-    return s == null || s.isEmpty();
+  public static String requireNonEmpty(String s) {
+    return requireNonEmpty(s, () -> "");
   }
-
-  /**
-   * @param s a map
-   * @return true if map is null or empty. otherwise false
-   */
-  public static boolean isEmpty(Map<?, ?> s) {
-    return s == null || s.isEmpty();
-  }
-
   /**
    * throw exception if the input string is either null or empty.
    *
@@ -406,6 +393,17 @@ public final class CommonUtils {
     return s;
   }
 
+  public static <T extends Collection<?>> T requireNonEmpty(T s) {
+    return requireNonEmpty(s, () -> "");
+  }
+
+  public static <T extends Collection<?>> boolean isEmpty(T s) {
+    return s == null || s.isEmpty();
+  }
+
+  public static <T extends Map<?, ?>> boolean isEmpty(T s) {
+    return s == null || s.isEmpty();
+  }
   /**
    * throw exception if the input collection is either null or empty.
    *
@@ -421,6 +419,10 @@ public final class CommonUtils {
     return s;
   }
 
+  public static <T extends Map<?, ?>> T requireNonEmpty(T s) {
+    return requireNonEmpty(s, () -> "");
+  }
+
   /**
    * throw exception if the input map is either null or empty.
    *
@@ -434,18 +436,6 @@ public final class CommonUtils {
   public static <T extends Map<?, ?>> T requireNonEmpty(T s, Supplier<String> msg) {
     if (Objects.requireNonNull(s).isEmpty()) throw new IllegalArgumentException(msg.get());
     return s;
-  }
-
-  public static String requireNonEmpty(String s) {
-    return requireNonEmpty(s, () -> "");
-  }
-
-  public static <T extends Collection<?>> T requireNonEmpty(T s) {
-    return requireNonEmpty(s, () -> "");
-  }
-
-  public static <T extends Map<?, ?>> T requireNonEmpty(T s) {
-    return requireNonEmpty(s, () -> "");
   }
 
   public static int requirePositiveInt(int value) {

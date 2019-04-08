@@ -22,7 +22,6 @@ import com.island.ohara.client.configurator.v0.WorkerApi.WorkerClusterInfo
 import com.island.ohara.client.kafka.WorkerClient
 import com.island.ohara.common.annotations.Optional
 import com.island.ohara.common.util.CommonUtils
-import collection.JavaConverters._
 
 import scala.concurrent.{ExecutionContext, Future}
 trait WorkerCollie extends Collie[WorkerClusterInfo, WorkerCollie.ClusterCreator] {
@@ -149,7 +148,7 @@ object WorkerCollie {
       configTopicName = CommonUtils.requireNonEmpty(configTopicName),
       configTopicReplications = CommonUtils.requirePositiveShort(configTopicReplications),
       jarUrls = Objects.requireNonNull(jarUrls),
-      nodeNames = CommonUtils.requireNonEmpty(nodeNames.asJava).asScala
+      nodeNames = requireNonEmpty(nodeNames)
     )
 
     protected def doCreate(executionContext: ExecutionContext,

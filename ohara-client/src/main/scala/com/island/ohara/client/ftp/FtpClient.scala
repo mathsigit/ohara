@@ -254,8 +254,7 @@ object FtpClient {
         private[this] val hostname =
           CommonUtils.requireNonEmpty(Builder.this.hostname, () => "hostname can't be null or empty")
         private[this] val port = CommonUtils.requirePositiveInt(Builder.this.port)
-        private[this] val user =
-          CommonUtils.requireNonEmpty(Builder.this.user, () => "user can't be null or empty")
+        private[this] val user = CommonUtils.requireNonEmpty(Builder.this.user, () => "user can't be null or empty")
         private[this] val password =
           CommonUtils.requireNonEmpty(Builder.this.password, () => "password can't be null or empty")
         private[this] val retryTimeout = Objects.requireNonNull(Builder.this.retryTimeout)

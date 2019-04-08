@@ -23,7 +23,6 @@ import com.island.ohara.common.annotations.Optional
 import com.island.ohara.common.util.CommonUtils
 
 import scala.concurrent.{ExecutionContext, Future}
-import scala.collection.JavaConverters._
 
 trait BrokerCollie extends Collie[BrokerClusterInfo, BrokerCollie.ClusterCreator] {
 
@@ -76,7 +75,7 @@ object BrokerCollie {
       zookeeperClusterName = CommonUtils.requireNonEmpty(zookeeperClusterName),
       clientPort = CommonUtils.requirePositiveInt(clientPort),
       exporterPort = CommonUtils.requirePositiveInt(exporterPort),
-      nodeNames = CommonUtils.requireNonEmpty(nodeNames.asJava).asScala
+      nodeNames = requireNonEmpty(nodeNames)
     )
 
     protected def doCreate(executionContext: ExecutionContext,

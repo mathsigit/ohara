@@ -15,13 +15,13 @@
  */
 
 package com.island.ohara.agent
+import java.util.Objects
 
 import com.island.ohara.agent.Collie.ClusterCreator
 import com.island.ohara.client.configurator.v0.ClusterInfo
 import com.island.ohara.client.configurator.v0.ContainerApi.ContainerInfo
 import com.island.ohara.common.util.CommonUtils
 
-import scala.collection.JavaConverters._
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
@@ -154,9 +154,20 @@ object Collie {
       * @return cluster description
       */
     def nodeNames(nodeNames: Seq[String]): ClusterCreator.this.type = {
-      this.nodeNames = CommonUtils.requireNonEmpty(nodeNames.asJava).asScala
+      this.nodeNames = requireNonEmpty(nodeNames)
       this
     }
+
+    /**
+      * CommonUtils.requireNonEmpty can't serve for scala so we write this method...by chia
+      * @param s input seq
+      * @tparam E element type
+      * @tparam T seq type
+      * @return input seq
+      */
+    protected def requireNonEmpty[C <: Seq[_]](s: C): C = if (Objects.requireNonNull(s).isEmpty)
+      throw new IllegalArgumentException("empty seq is illegal!!!")
+    else s
 
     def create()(implicit executionContext: ExecutionContext): Future[T]
   }

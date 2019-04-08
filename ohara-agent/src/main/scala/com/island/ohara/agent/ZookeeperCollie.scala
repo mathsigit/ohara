@@ -20,7 +20,7 @@ import java.util.Objects
 import com.island.ohara.client.configurator.v0.ZookeeperApi.ZookeeperClusterInfo
 import com.island.ohara.common.annotations.Optional
 import com.island.ohara.common.util.CommonUtils
-import scala.collection.JavaConverters._
+
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
@@ -60,7 +60,7 @@ object ZookeeperCollie {
       clientPort = CommonUtils.requirePositiveInt(clientPort),
       peerPort = CommonUtils.requirePositiveInt(peerPort),
       electionPort = CommonUtils.requirePositiveInt(electionPort),
-      nodeNames = CommonUtils.requireNonEmpty(nodeNames.asJava).asScala
+      nodeNames = requireNonEmpty(nodeNames)
     )
 
     protected def doCreate(executionContext: ExecutionContext,
