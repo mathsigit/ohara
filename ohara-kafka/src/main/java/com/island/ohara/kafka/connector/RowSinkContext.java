@@ -48,7 +48,7 @@ public interface RowSinkContext {
    * @param partition the topic partition to reset offset.
    * @param offset the offset to reset to.
    */
-  default void offset(TopicPartition partition, Long offset) {
+  default void offset(TopicPartition partition, long offset) {
     this.offset(Collections.singletonMap(partition, offset));
   }
 
